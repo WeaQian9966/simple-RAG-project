@@ -176,3 +176,59 @@ print(f"A: {response['result']}")
 1. **Replace OpenAI** : 尝试用 Ollama 替换 OpenAI，实现完全免费的本地 RAG。
 2. **Different Data Source** : 尝试加载 PDF (`PyPDFLoader`) 或者 网页 (`WebBaseLoader`)。
 3. **UI Interface** : 使用 **Streamlit** 给你的代码加一个简单的网页界面。
+
+
+---
+
+# ollama settings
+
+## install Ollama
+
+visit Ollama website
+
+## start ollama service & download model
+
+```
+# 1. 启动 Ollama 服务 (如果你还没启动)
+ollama serve
+
+# 2. 下载模型 (我们用 meta 的 llama3，平衡性很好)
+ollama pull llama3
+
+# 3. 下载 Embedding 模型 (推荐 nomic-embed-text，专门为检索优化)
+# 如果不想下载这个，也可以直接用 llama3 做 embedding，但效果稍差
+ollama pull nomic-embed-text
+```
+
+## install dependencies
+
+```
+pip install langchain langchain-community chromadb
+```
+
+## code
+
+```
+# CHANGED: 引入 Ollama 相关的库
+from langchain_community.chat_models import ChatOllama
+from langchain_community.embeddings import OllamaEmbeddings
+
+# 3. Embedding Model (关键修改!)
+# 我们使用本地的 Ollama 来把文本变成向量
+# 如果你没下载 nomic-embed-text，这里也可以填 "llama3"
+embeddings = OllamaEmbeddings(model="nomic-embed-text")
+
+# 5. Retrieval & Generation (关键修改!)
+# 初始化本地 LLM
+llm = ChatOllama(
+    model="llama3", 
+    temperature=0, # 0 表示回答更精准，不发散
+)
+```
+
+---
+
+# Q&A
+
+> Q: failed to import langchain.chains
+> A: replace by langchain_classic.chains

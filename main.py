@@ -1,5 +1,6 @@
 import os
 from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import PyPDFLoader
 
 # 设置 API Key (实际项目中建议放在 .env 文件中)
 # from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
@@ -11,7 +12,8 @@ from langchain_ollama import OllamaEmbeddings
 
 # 1. Loading
 # 使用 TextLoader 加载本地文件
-loader = TextLoader("./knowledge.txt", encoding="utf-8")
+# loader = TextLoader("./knowledge.txt", encoding="utf-8")
+loader = PyPDFLoader("/Users/wei/Documents/resources/research/1706.03762v7.pdf")
 documents = loader.load()
 print(f"Loaded {len(documents)} document(s).")
 
@@ -77,8 +79,17 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 
 # --- 测试一下 ---
-query = "what do i have?"
-response = qa_chain.invoke(query)
+# query = "what do i have?"
+# response = qa_chain.invoke(query)
 
-print(f"Q: {query}")
-print(f"A: {response['result']}")
+# print(f"Q: {query}")
+# print(f"A: {response['result']}")
+
+while True:
+    query = input("\n请输入问题 (输入 'exit' 退出): ")
+    if query == 'exit':
+        break
+    
+    print("思考中...")
+    response = qa_chain.invoke(query)
+    print(f"Answer: {response['result']}")
