@@ -4,7 +4,7 @@ from langchain_community.document_loaders import PyPDFLoader
 
 # 设置 API Key (实际项目中建议放在 .env 文件中)
 # from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-# os.environ["GOOGLE_API_KEY"] = "AIzaSyDbqJ-AtLH12iar9aMpKJMYZxPtYNSDdkM" 
+# os.environ["GOOGLE_API_KEY"] = "asdsa" 
 
 # CHANGED: 引入 Ollama 相关的库
 from langchain_community.chat_models import ChatOllama
